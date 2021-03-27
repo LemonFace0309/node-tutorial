@@ -5,8 +5,9 @@ const path = require('path')
 const express = require('express') // exports a function
 // const expressHbs = require('express-handlebars')
 
-const adminData = require('./routes/admin')
+const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
+const errorController = require('./controllers/error')
 
 const app = express()
 
@@ -19,14 +20,10 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false })) // parses req.body
 app.use(express.static(path.join(__dirname, 'public'))) // grants read access to path
 
-app.use('/admin', adminData.routes)
+app.use('/admin', adminRoutes)
 app.use(shopRoutes)
 
-app.use((req, res, next) => {
-  // res.status(404).send('<h1>Page not Found</h1>')
-  // res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
-  res.status(404).render('404', { pageTitle: 'Page Not Found', path: '/404' })
-})
+app.use(errorController.get404)
 
 // const server = http.createServer(app)
 //server.listen(3000)
