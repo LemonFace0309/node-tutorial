@@ -27,7 +27,8 @@
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <%- include('../includes/add-to-cart.ejs') %>
+                                    <a href="/admin/edit-product/<%= product.id %>?edit=true" class="btn">Edit</a>
+                                    <%- include('../includes/add-to-cart.ejs', {product: product}) %>
                                 </div>
                             </article>
                             <% } %>
