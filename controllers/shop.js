@@ -2,13 +2,17 @@ const Product = require('../models/product')
 const Cart = require('../garbage/cart')
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render('shop/product-list', {
-      prods: products,
-      pageTitle: 'Shop',
-      path: '/products',
+  Product.findAll()
+    .then((products) => {
+      res.render('shop/product-list', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/products',
+      })
     })
-  })
+    .catch((err) => {
+      console.log(err)
+    })
   //res.send("<h1>Hello from Express</h1>")
   //res.sendFile(path.join(__dirname, '..', 'views', 'shop.html'))
   // __dirname holds absolute path on os to project folder
@@ -27,13 +31,17 @@ exports.getProduct = (req, res, next) => {
 }
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render('shop/index', {
-      prods: products,
-      pageTitle: 'Shop',
-      path: '/',
+  Product.findAll()
+    .then((products) => {
+      res.render('shop/index', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/',
+      })
     })
-  })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 exports.getCart = (req, res, next) => {
