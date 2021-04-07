@@ -21,13 +21,18 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const id = req.params.productId
-  Product.findById(id, (product) => {
-    res.render('shop/product-detail', {
-      pageTitle: product.title,
-      path: '/products',
-      product: product,
+  Product.findByPk(id)
+    .then((product) => {
+      res.render('shop/product-detail', {
+        pageTitle: product.title,
+        path: '/products',
+        product: product,
+      })
     })
-  })
+    .catch((err) => {
+      console.log(err)
+    })
+  // Product.findAll({where: {id: id}})
 }
 
 exports.getIndex = (req, res, next) => {
