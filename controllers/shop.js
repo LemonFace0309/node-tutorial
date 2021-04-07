@@ -13,10 +13,6 @@ exports.getProducts = (req, res, next) => {
     .catch((err) => {
       console.log(err)
     })
-  //res.send("<h1>Hello from Express</h1>")
-  //res.sendFile(path.join(__dirname, '..', 'views', 'shop.html'))
-  // __dirname holds absolute path on os to project folder
-  // path works on linux and windows systems
 }
 
 exports.getProduct = (req, res, next) => {
