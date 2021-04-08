@@ -13,6 +13,8 @@ const Product = require('./models/product')
 const User = require('./models/user')
 const Cart = require('./models/cart')
 const CartItem = require('./models/cart-item')
+const Order = require('./models/order')
+const OrderItem = require('./models/order-item')
 
 const app = express()
 
@@ -45,14 +47,18 @@ app.use(errorController.get404)
 
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
 User.hasMany(Product) // not required, only there for clarity
-User.hasOne(Cart)
 Cart.belongsTo(User)
+User.hasOne(Cart)
 Cart.hasMany(CartItem) // not required, only there for clarity
-Cart.belongsToMany(Product, {through: CartItem})
-Product.belongsToMany(Cart, {through: CartItem})
+Cart.belongsToMany(Product, { through: CartItem })
+Product.belongsToMany(Cart, { through: CartItem })
+Order.belongsTo(User)
+User.hasMany(Order)
+Order.belongsToMany(Product, { through: OrderItem })
+Product.belongsToMany(Order, { through: CartItem })
 
 sequelize
-  .sync() // {force: true} overrides tables if new relations are made
+  .sync({force: true}) // {force: true} overrides tables if new relations are made
   .then((result) => {
     return User.findByPk(1)
   })
@@ -68,7 +74,7 @@ sequelize
   .then((user) => {
     return user.createCart()
   })
-  .then(cart => {
+  .then((cart) => {
     app.listen(3000)
   })
   .catch((err) => {
