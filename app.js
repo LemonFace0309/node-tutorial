@@ -55,10 +55,10 @@ Product.belongsToMany(Cart, { through: CartItem })
 Order.belongsTo(User)
 User.hasMany(Order)
 Order.belongsToMany(Product, { through: OrderItem })
-Product.belongsToMany(Order, { through: CartItem })
+Product.belongsToMany(Order, { through: OrderItem })
 
 sequelize
-  .sync({force: true}) // {force: true} overrides tables if new relations are made
+  .sync() // {force: true} overrides tables if new relations are made
   .then((result) => {
     return User.findByPk(1)
   })
